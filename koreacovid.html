@@ -387,7 +387,9 @@ summary {
 <p>Some of the data was uncoded for sex - sex must be just male or female 77 of the data entries were coded sex as blank, so we omit these. state of a patient must be died or alive - we adjust that as well</p>
 </div>
 <div id="question-1---is-dying-independent-of-sex" class="section level1">
-<h1>Question 1 - Is dying independent of sex</h1>
+<h1>Question 1 - Is dying independent of sex?</h1>
+<p><span class="math inline">\(H_0\)</span>: There is no relationship between sex and the amount of people dying from Covid.<br />
+<span class="math inline">\(H_A\)</span>: There is a relationship between sex and the amount of people dying from Covid.</p>
 <p>Table of patients:</p>
 <pre class="r"><code># cross tabulation, patient state by gender
 
@@ -409,12 +411,74 @@ with(kRdata, table(Sex, result))</code></pre>
 </div>
 <div id="numerical-results" class="section level2">
 <h2>Numerical results</h2>
+<pre class="r"><code>table1 &lt;- xtabs(~result + Sex, data=kRdata)
+rowPerc(table1)</code></pre>
+<pre><code>##        Sex
+## result    F   M Total
+##   alive  56  44   100
+##   dead   36  64   100</code></pre>
+<pre class="r"><code>colPerc(table1)</code></pre>
+<pre><code>##        Sex
+## result      F   M
+##   alive  98.7  97
+##   dead    1.4   3
+##   Total 100.0 100</code></pre>
+<p>The results show that out of the whole population, the females alive is 56% whereas the males alive is 44%.<br />
+Of all the females, 98.7% females are alive and 1.4% of them are dead.<br />
+Of all the males, 97% males are alive and 3% of them are dead which is almost twice more than the percent of females that died from the virus.</p>
 </div>
 <div id="inferential-results" class="section level2">
 <h2>Inferential results</h2>
+<pre class="r"><code>chisq.test(table1)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  table1
+## X-squared = 10, df = 1, p-value = 0.001</code></pre>
+<pre class="r"><code>chisqtestGC(table1)</code></pre>
+<pre><code>## Pearson&#39;s Chi-squared test with Yates&#39; continuity correction 
+## 
+## Observed Counts:
+##        Sex
+## result     F    M
+##   alive 1831 1411
+##   dead    25   44
+## 
+## Counts Expected by Null:
+##        Sex
+## result     F    M
+##   alive 1817 1425
+##   dead    39   30
+## 
+## Contributions to the chi-square statistic:
+##        Sex
+## result     F    M
+##   alive 0.10 0.13
+##   dead  4.84 6.17
+## 
+## 
+## Chi-Square Statistic = 10 
+## Degrees of Freedom of the table = 1 
+## P-Value = 0.0012</code></pre>
+<pre class="r"><code>fisher.test(table1)</code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table1
+## p-value = 9e-04
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##  1.4 3.9
+## sample estimates:
+## odds ratio 
+##        2.3</code></pre>
+<p>The odds of dying if you are a male is 44/1411.<br />
+The odds of dying if you are a female is 25/1831.<br />
+The odds ratio is (44/1411)/(25/1831)= 2.3 to 1.</p>
 </div>
 <div id="conclusions" class="section level2">
 <h2>Conclusions</h2>
+<p>The results shows that the p value is 0.001 which is less than 0.05 therefore we reject the null hypothesis. There is a relationship between sex and the amount of people that died due to Covid.</p>
 </div>
 </div>
 

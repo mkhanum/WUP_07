@@ -22,10 +22,9 @@ Some of the data was uncoded for sex - sex must be just male or female
 77 of the data entries were coded sex  as blank, so we omit these.
 state of a patient must be died or alive - we adjust that as well   
   
-# Question 1 - Is dying independent of sex
-
-
-
+# Question 1 - Is dying independent of sex?
+$H_0$: There is no relationship between sex and the amount of people dying from Covid.  
+$H_A$: There is a relationship between sex and the amount of people dying from Covid. 
 
 Table of patients:
 ```{r}
@@ -54,11 +53,25 @@ As shown in the graph, the percentage of females dying from the Covid is less th
   
 ## Numerical results
 
+```{r}
+table1 <- xtabs(~result + Sex, data=kRdata)
+rowPerc(table1)
+colPerc(table1)
+```
+The results show that out of the whole population, the females alive is 56% whereas the males alive is 44%.  
+Of all the females, 98.7% females are alive and 1.4% of them are dead.  
+Of all the males, 97% males are alive and 3% of them are dead which is almost twice more than the percent of females that died from the virus.
 
 ## Inferential results 
 
-
-
+```{r}
+chisq.test(table1)
+chisqtestGC(table1)
+fisher.test(table1)
+```
+The odds of dying if you are a male is 44/1411.  
+The odds of dying if you are a female is 25/1831.  
+The odds ratio is (44/1411)/(25/1831)= 2.3 to 1.  
 
 ## Conclusions
-
+The results shows that the p value is 0.001 which is less than 0.05 therefore we reject the null hypothesis. There is a relationship between sex and the amount of people that died due to Covid. 
